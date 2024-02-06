@@ -24,14 +24,14 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String otherName;
+    private String email;
+    private String phoneNumber;
+    private String alternativePhoneNumber;
     private String gender;
     private String address;
     private String stateOfOrigin;
     private String accountNumber;
     private BigDecimal accountBalance;
-    private String email;
-    private String phoneNumber;
-    private String alternativePhoneNumber;
     private String status;
 
     @CreationTimestamp
