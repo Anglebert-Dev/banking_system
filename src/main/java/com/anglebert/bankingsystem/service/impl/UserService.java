@@ -1,9 +1,6 @@
 package com.anglebert.bankingsystem.service.impl;
 
-import com.anglebert.bankingsystem.dto.BankResponse;
-import com.anglebert.bankingsystem.dto.CreditDebitRequest;
-import com.anglebert.bankingsystem.dto.EnquiryRequest;
-import com.anglebert.bankingsystem.dto.UserRequest;
+import com.anglebert.bankingsystem.dto.*;
 
 public interface UserService {
     BankResponse createAccount(UserRequest userRequest);
@@ -12,5 +9,6 @@ public interface UserService {
 
     BankResponse creditAccount(CreditDebitRequest creditRequest);
     BankResponse debitAccount(CreditDebitRequest debitRequest);
+    BankResponse transfer(TransferRequest request);
 
 }

@@ -1,9 +1,6 @@
 package com.anglebert.bankingsystem.controller;
 
-import com.anglebert.bankingsystem.dto.BankResponse;
-import com.anglebert.bankingsystem.dto.CreditDebitRequest;
-import com.anglebert.bankingsystem.dto.EnquiryRequest;
-import com.anglebert.bankingsystem.dto.UserRequest;
+import com.anglebert.bankingsystem.dto.*;
 import com.anglebert.bankingsystem.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +35,9 @@ public class UserController {
     @PostMapping("/debit")
     public  BankResponse debitAccount(@RequestBody CreditDebitRequest creditDebitRequest){
         return  userService.debitAccount(creditDebitRequest);
+    }
+    @PostMapping("/transfer")
+    public  BankResponse transfer(@RequestBody TransferRequest request){
+        return  userService.transfer(request);
     }
 }
