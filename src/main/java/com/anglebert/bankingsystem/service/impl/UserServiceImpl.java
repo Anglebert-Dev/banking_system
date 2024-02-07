@@ -162,9 +162,7 @@ public class UserServiceImpl implements UserService{
                         .accountBalance(userToDebit.getAccountBalance())
                         .build())
                 .build();
-
     }
-
     @Override
     public BankResponse transfer(TransferRequest request) {
 //        get the account to debit(check if it exists)
@@ -205,7 +203,7 @@ public class UserServiceImpl implements UserService{
         EmailDetails creditDetails = EmailDetails.builder()
                 .subject("CREDIT ALERT")
                 .recipient(destinationAccountUser.getEmail())
-                .messageBody("The sum of $ " +request.getAmount() + " has been sent to you from : " + senderUsername + " \n" +
+                .messageBody("The sum of $ " + request.getAmount() + " has been sent to you from : " + senderUsername + " \n"  +
                         "Current Balance: $ " + destinationAccountUser.getAccountBalance())
                 .build();
         emailService.sendEmailAlert(creditDetails);
