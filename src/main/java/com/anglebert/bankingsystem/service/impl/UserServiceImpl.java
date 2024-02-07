@@ -1,9 +1,6 @@
 package com.anglebert.bankingsystem.service.impl;
 
-import com.anglebert.bankingsystem.dto.AccountInfo;
-import com.anglebert.bankingsystem.dto.BankResponse;
-import com.anglebert.bankingsystem.dto.EmailDetails;
-import com.anglebert.bankingsystem.dto.UserRequest;
+import com.anglebert.bankingsystem.dto.*;
 import com.anglebert.bankingsystem.entity.UserEntity;
 import com.anglebert.bankingsystem.repository.UserRepository;
 import com.anglebert.bankingsystem.utils.AccountUtils;
@@ -66,4 +63,43 @@ public class UserServiceImpl implements UserService{
                         .build())
                 .build();
     }
+
+    //    balance Enquiry , name Enquiry , debt , credit , transfer
+    @Override
+    public BankResponse balanceEnquiry(EnquiryRequest enquiryRequest) {
+//       check if account number exists
+        boolean accountExist= userRepository.existsByAccountNumber(enquiryRequest.getAccountNumber());
+        if(!accountExist){
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_NOT_EXIST_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_NOT_EXIST_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+        UserEntity foundUser = userRepository.findByAccountNumber(enquiryRequest.getAccountNumber());
+        return BankResponse.builder()
+                .responseCode(AccountUtils.ACCOUNT_FOUND_CODE)
+                .responseMessage(AccountUtils.ACCOUNT_FOUND_MESSAGE)
+                .accountInfo(
+                      AccountInfo.builder()
+                              .accountName(foundUser.getFirstName() + " " + foundUser.getLastName())
+                              .accountNumber(enquiryRequest.getAccountNumber())
+                              .accountBalance(foundUser.getAccountBalance())
+                              .build()
+                )
+                .build();
+    }
+
+    @Override
+    public String nameEnquiry(EnquiryRequest enquiryRequest) {
+        boolean accountExist= userRepository.existsByAccountNumber(enquiryRequest.getAccountNumber());
+        if(!accountExist){
+            return AccountUtils.ACCOUNT_NOT_EXIST_MESSAGE;
+        }
+
+        UserEntity foundUser = userRepository.findByAccountNumber(enquiryRequest.getAccountNumber());
+        return  foundUser.getFirstName() + " " + foundUser.getLastName() ;
+    }
+
+
 }
