@@ -20,6 +20,13 @@ public class AccountUtils {
     public static  final String ACCOUNT_CREDITED_SUCCESS="005";
     public static  final String ACCOUNT_CREDITED_SUCCESS_MESSAGE="User Account Credited Successfully!";
 
+    public static  final String INSUFFICIENT_BALANCE_CODE="006";
+    public static  final String INSUFFICIENT_BALANCE_MESSAGE="Insufficient Balance ";
+
+    public static  final String ACCOUNT_DEBITED_SUCCESS="007";
+    public static  final String ACCOUNT_DEBITED_SUCCESS_MESSAGE="User Account Debited Successfully!";
+
+
 //    generate account number
 
     public static String generateAccountNumber() {
