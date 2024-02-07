@@ -101,5 +101,48 @@ public class UserServiceImpl implements UserService{
         return  foundUser.getFirstName() + " " + foundUser.getLastName() ;
     }
 
+    @Override
+    public BankResponse creditAccount(CreditDebitRequest creditRequest) {
+        //       check if account number exists
+        boolean accountExist= userRepository.existsByAccountNumber(creditRequest.getAccountNumber());
+        if(!accountExist){
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_NOT_EXIST_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_NOT_EXIST_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+
+        UserEntity userToCredit = userRepository.findByAccountNumber(creditRequest.getAccountNumber());
+        userToCredit.setAccountBalance(userToCredit.getAccountBalance().add(creditRequest.getAmount()));
+        userRepository.save(userToCredit);
+        return BankResponse.builder()
+                .responseCode(AccountUtils.ACCOUNT_CREDITED_SUCCESS)
+                .responseMessage(AccountUtils.ACCOUNT_CREDITED_SUCCESS_MESSAGE)
+                .accountInfo(AccountInfo.builder()
+                        .accountName(userToCredit.getFirstName() + " " + userToCredit.getLastName())
+                        .accountNumber(creditRequest.getAccountNumber())
+                        .accountBalance(userToCredit.getAccountBalance())
+                        .build())
+                .build();
+    }
+
+    @Override
+    public BankResponse debitAccount(CreditDebitRequest creditRequest) {
+        //       check if account number exists
+        boolean accountExist= userRepository.existsByAccountNumber(creditRequest.getAccountNumber());
+        if(!accountExist){
+            return BankResponse.builder()
+                    .responseCode(AccountUtils.ACCOUNT_NOT_EXIST_CODE)
+                    .responseMessage(AccountUtils.ACCOUNT_NOT_EXIST_MESSAGE)
+                    .accountInfo(null)
+                    .build();
+        }
+
+//        check if the amount you want to withdraw is not more than what you have on yr acc
+
+
+    }
+
 
 }

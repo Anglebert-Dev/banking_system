@@ -1,6 +1,7 @@
 package com.anglebert.bankingsystem.controller;
 
 import com.anglebert.bankingsystem.dto.BankResponse;
+import com.anglebert.bankingsystem.dto.CreditDebitRequest;
 import com.anglebert.bankingsystem.dto.EnquiryRequest;
 import com.anglebert.bankingsystem.dto.UserRequest;
 import com.anglebert.bankingsystem.service.impl.UserService;
@@ -27,5 +28,10 @@ public class UserController {
     @GetMapping("/nameEnquiry")
     public String nameEnquiry(@RequestBody EnquiryRequest enquiryRequest){
         return  userService.nameEnquiry(enquiryRequest);
+    }
+
+    @PostMapping("/credit")
+    public  BankResponse creditAccount(@RequestBody CreditDebitRequest creditDebitRequest){
+        return  userService.creditAccount(creditDebitRequest);
     }
 }
