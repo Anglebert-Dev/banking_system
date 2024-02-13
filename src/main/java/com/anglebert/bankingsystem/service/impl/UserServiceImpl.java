@@ -230,7 +230,7 @@ public class UserServiceImpl implements UserService{
 
         TransactionDto transactionDto = TransactionDto.builder()
                 .accountNumber(destinationAccountUser.getAccountNumber())
-                .transactionType("CREDIT")
+                .transactionType("TRANSFER")
                 .amount(request.getAmount())
                 .build();
 
