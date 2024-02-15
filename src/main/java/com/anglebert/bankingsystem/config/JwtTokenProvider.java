@@ -1,9 +1,6 @@
 package com.anglebert.bankingsystem.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -11,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 
@@ -21,17 +19,18 @@ public class JwtTokenProvider {
 
     @Value("${app.jwt-expiration}")
     private long jwtExpirationDate;
-
+    SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     public String generateToken(Authentication authentication){
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
+
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(expireDate)
-                .signWith(key())
+                .signWith(key)
                 .compact();
     }
 
@@ -42,7 +41,7 @@ public class JwtTokenProvider {
 
     public String getUsername(String token){
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -53,7 +52,7 @@ public class JwtTokenProvider {
     public  boolean validateToken(String token){
         try{
             Jwts.parserBuilder()
-                    .setSigningKey(key())
+                    .setSigningKey(key)
                     .build()
                     .parse(token);
 
@@ -63,3 +62,4 @@ public class JwtTokenProvider {
         }
     }
 }
+
