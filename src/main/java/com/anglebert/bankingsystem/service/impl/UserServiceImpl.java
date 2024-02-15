@@ -5,6 +5,7 @@ import com.anglebert.bankingsystem.entity.UserEntity;
 import com.anglebert.bankingsystem.repository.UserRepository;
 import com.anglebert.bankingsystem.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     TransactionService transactionService;
 
@@ -38,6 +42,7 @@ public class UserServiceImpl implements UserService{
                 .phoneNumber(userRequest.getPhoneNumber())
                 .alternativePhoneNumber(userRequest.getAlternativePhoneNumber())
                 .email(userRequest.getEmail())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .stateOfOrigin(userRequest.getStateOfOrigin())
                 .address(userRequest.getAddress())
                 .gender(userRequest.getGender())
